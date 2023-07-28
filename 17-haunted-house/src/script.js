@@ -268,7 +268,7 @@ floor.receiveShadow = true
  * Animate
  */
 const clock = new THREE.Clock()
-
+console.log(house)
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
