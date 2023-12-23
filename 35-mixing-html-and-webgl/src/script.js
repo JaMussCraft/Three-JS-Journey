@@ -128,6 +128,17 @@ gltfLoader.load(
 )
 
 /**
+ * POIs
+ */
+const raycaster = new THREE.Raycaster()
+const points = [
+    {
+        position: new THREE.Vector3(1.55, 0.3, -0.6),
+        element: document.querySelector('.point-0')
+    }
+]
+
+/**
  * Lights
  */
 const directionalLight = new THREE.DirectionalLight('#ffffff', 3)
@@ -194,6 +205,37 @@ const tick = () =>
 {
     // Update controls
     controls.update()
+
+    // Update points
+    for (const point of points) 
+    {
+        const screenPosition = point.position.clone()
+        screenPosition.project(camera)
+
+        raycaster.setFromCamera(screenPosition, camera)
+        const intersects = raycaster.intersectObjects(scene.children, true)
+
+        if (intersects.length === 0)
+        {
+            point.element.classList.add('visible')
+        }
+        else
+        {
+            if (intersects[0].distance < point.position.distanceTo(camera.position)) {
+                point.element.classList.remove('visible')
+                
+            } else {
+                point.element.classList.add('visible')
+
+            }
+
+        }
+
+        point.element.style.transform = `translateX(${screenPosition.x * sizes.width * 0.5}px)
+                                         translateY(${screenPosition.y * -sizes.height * 0.5}px)`
+
+
+    }
 
     // Render
     renderer.render(scene, camera)
