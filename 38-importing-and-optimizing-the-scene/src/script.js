@@ -65,6 +65,7 @@ const lampLightMaterial = new THREE.MeshBasicMaterial({ color: 0xe3df64 })
  * Model
  */
 gltfLoader.load('portal.glb', (gltf) => {
+  console.log(gltf)
   gltf.scene.traverse((child) => {
 
     if (child.name === 'Circle') {
